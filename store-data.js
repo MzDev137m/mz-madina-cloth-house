@@ -1,35 +1,8 @@
 // ── STORE DATA BRIDGE ─────────────────────────────────────────────────────────
-// Syncs from Firestore first, then renders the store frontend.
+// Real-time Firestore sync — auto-updates on all devices without page refresh.
 
 (async function () {
   const WA = '923004260700';
-
-  // ── FIREBASE SYNC ──────────────────────────────────────────────────────────
-  try {
-    const [{ initializeApp, getApps }, { getFirestore, doc, getDoc }] = await Promise.all([
-      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js'),
-    ])
-    const config = {
-      apiKey: "AIzaSyDpYmD6FrOLfPMKdvnX5DoNLdzLYh2vFaM",
-      authDomain: "mz-projects-6f5a9.firebaseapp.com",
-      projectId: "mz-projects-6f5a9",
-      storageBucket: "mz-projects-6f5a9.firebasestorage.app",
-      messagingSenderId: "454812915813",
-      appId: "1:454812915813:web:8d8e6b955011273c148e8c",
-    }
-    const app = getApps().find(a => a.name === 'mch-store') || initializeApp(config, 'mch-store')
-    const db  = getFirestore(app)
-    const KEYS = ['mch_products', 'mch_brands', 'mch_categories', 'mch_gallery']
-    await Promise.all(KEYS.map(async (key) => {
-      const snap = await getDoc(doc(db, 'clothhouse', key))
-      if (snap.exists() && snap.data().items !== undefined) {
-        localStorage.setItem(key, JSON.stringify(snap.data().items))
-      }
-    }))
-  } catch (e) {
-    console.warn('[MCH Store] Firebase sync failed, using local data.', e)
-  }
 
   // ── HELPERS ────────────────────────────────────────────────────────────────
   function getData(key) {
@@ -59,7 +32,7 @@
     const products = getData('mch_products').filter(p => p.isActive && parseInt(p.stock || 0) > 0);
     if (!products.length) return; // keep hardcoded fallback
 
-    const cats = getData('mch_categories');
+    const cats   = getData('mch_categories');
     const brands = getData('mch_brands');
 
     grid.innerHTML = products.slice(0, 8).map(p => {
@@ -72,9 +45,9 @@
 
       const subtitle = [p.gender, cat?.name].filter(Boolean).join(' · ');
       const tags = [
-        p.fabric ? `<span class="tag-sm">${escHtml(p.fabric)}</span>` : '',
+        p.fabric   ? `<span class="tag-sm">${escHtml(p.fabric)}</span>` : '',
         p.discount ? `<span class="tag-sm" style="background:#dcfce7;color:#166534;">${p.discount}% OFF</span>` : '',
-        brand ? `<span class="tag-sm">${escHtml(brand.name)}</span>` : ''
+        brand      ? `<span class="tag-sm">${escHtml(brand.name)}</span>` : ''
       ].filter(Boolean).join('');
 
       return `
@@ -112,13 +85,13 @@
     const grid = document.getElementById('brandsGrid');
     if (!grid) return;
 
-    const brands = getData('mch_brands').filter(b => b.isActive);
+    const brands   = getData('mch_brands').filter(b => b.isActive);
     if (!brands.length) return; // keep hardcoded fallback
 
     const products = getData('mch_products');
 
     grid.innerHTML = brands.map(b => {
-      const pcount = products.filter(p => p.brandId === b.id).length;
+      const pcount   = products.filter(p => p.brandId === b.id).length;
       const initials = b.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
       const imgHtml = b.image
@@ -156,10 +129,78 @@
       </div>`).join('');
   }
 
-  // ── RUN ─────────────────────────────────────────────────────────────────────
-  document.addEventListener('DOMContentLoaded', () => {
+  function renderAll() {
     renderShop();
     renderBrands();
     renderGallery();
+  }
+
+  // ── REAL-TIME FIREBASE SYNC ────────────────────────────────────────────────
+  // onSnapshot keeps a live connection — any admin change reflects instantly
+  // on every open browser/device without a page refresh.
+
+  const STORE_KEYS = ['mch_products', 'mch_brands', 'mch_categories', 'mch_gallery'];
+  let domReady         = false;
+  let fullyInitialized = false;
+  const loadedKeys     = new Set();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    domReady = true;
+    if (fullyInitialized) renderAll();
   });
+
+  try {
+    const [{ initializeApp, getApps }, { getFirestore, doc, onSnapshot }] = await Promise.all([
+      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js'),
+    ]);
+
+    const config = {
+      apiKey:            "AIzaSyDpYmD6FrOLfPMKdvnX5DoNLdzLYh2vFaM",
+      authDomain:        "mz-projects-6f5a9.firebaseapp.com",
+      projectId:         "mz-projects-6f5a9",
+      storageBucket:     "mz-projects-6f5a9.firebasestorage.app",
+      messagingSenderId: "454812915813",
+      appId:             "1:454812915813:web:8d8e6b955011273c148e8c",
+    };
+
+    const app = getApps().find(a => a.name === 'mch-store') || initializeApp(config, 'mch-store');
+    const db  = getFirestore(app);
+
+    STORE_KEYS.forEach(key => {
+      onSnapshot(
+        doc(db, 'clothhouse', key),
+        (snap) => {
+          if (snap.exists() && snap.data().items !== undefined) {
+            localStorage.setItem(key, JSON.stringify(snap.data().items));
+          }
+          loadedKeys.add(key);
+
+          if (!fullyInitialized) {
+            // Wait for all 4 keys to arrive before first render
+            if (loadedKeys.size >= STORE_KEYS.length) {
+              fullyInitialized = true;
+              if (domReady) renderAll();
+            }
+          } else if (domReady) {
+            // Subsequent real-time update from admin — re-render immediately
+            renderAll();
+          }
+        },
+        (err) => {
+          console.warn(`[MCH Store] Snapshot error for ${key}:`, err);
+          loadedKeys.add(key);
+          if (!fullyInitialized && loadedKeys.size >= STORE_KEYS.length) {
+            fullyInitialized = true;
+            if (domReady) renderAll();
+          }
+        }
+      );
+    });
+
+  } catch (e) {
+    console.warn('[MCH Store] Firebase init failed, using local data.', e);
+    document.addEventListener('DOMContentLoaded', renderAll);
+  }
+
 })();
