@@ -1,10 +1,9 @@
 // ── STORE DATA BRIDGE ─────────────────────────────────────────────────────────
-// Real-time Firestore sync — auto-updates on all devices without page refresh.
+// Reads from localStorage — admin panel writes here, store reads here.
 
-(async function () {
+(function () {
   const WA = '923004260700';
 
-  // ── HELPERS ────────────────────────────────────────────────────────────────
   function getData(key) {
     try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; }
   }
@@ -30,7 +29,7 @@
     if (!grid) return;
 
     const products = getData('mch_products').filter(p => p.isActive && parseInt(p.stock || 0) > 0);
-    if (!products.length) return; // keep hardcoded fallback
+    if (!products.length) return;
 
     const cats   = getData('mch_categories');
     const brands = getData('mch_brands');
@@ -86,7 +85,7 @@
     if (!grid) return;
 
     const brands   = getData('mch_brands').filter(b => b.isActive);
-    if (!brands.length) return; // keep hardcoded fallback
+    if (!brands.length) return;
 
     const products = getData('mch_products');
 
@@ -120,7 +119,7 @@
     if (!grid) return;
 
     const items = getData('mch_gallery').filter(g => g.visible !== false);
-    if (!items.length) return; // keep hardcoded fallback
+    if (!items.length) return;
 
     grid.innerHTML = items.map(g => `
       <div class="gallery-item" onclick="openLightbox(this)">
@@ -135,75 +134,10 @@
     renderGallery();
   }
 
-  // ── REAL-TIME FIREBASE SYNC ────────────────────────────────────────────────
-  // onSnapshot keeps a live connection — any admin change reflects instantly
-  // on every open browser/device without a page refresh.
-
-  const STORE_KEYS = ['mch_products', 'mch_brands', 'mch_categories', 'mch_gallery'];
-  // Script loads at bottom of body — DOM is already ready by the time this runs
-  let domReady         = document.readyState !== 'loading';
-  let fullyInitialized = false;
-  const loadedKeys     = new Set();
-
-  if (!domReady) {
-    document.addEventListener('DOMContentLoaded', () => {
-      domReady = true;
-      if (fullyInitialized) renderAll();
-    });
-  }
-
-  try {
-    const [{ initializeApp, getApps }, { getFirestore, doc, onSnapshot }] = await Promise.all([
-      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js'),
-    ]);
-
-    const config = {
-      apiKey:            "AIzaSyDpYmD6FrOLfPMKdvnX5DoNLdzLYh2vFaM",
-      authDomain:        "mz-projects-6f5a9.firebaseapp.com",
-      projectId:         "mz-projects-6f5a9",
-      storageBucket:     "mz-projects-6f5a9.firebasestorage.app",
-      messagingSenderId: "454812915813",
-      appId:             "1:454812915813:web:8d8e6b955011273c148e8c",
-    };
-
-    const app = getApps().find(a => a.name === 'mch-store') || initializeApp(config, 'mch-store');
-    const db  = getFirestore(app);
-
-    STORE_KEYS.forEach(key => {
-      onSnapshot(
-        doc(db, 'clothhouse', key),
-        (snap) => {
-          if (snap.exists() && snap.data().items !== undefined) {
-            localStorage.setItem(key, JSON.stringify(snap.data().items));
-          }
-          loadedKeys.add(key);
-
-          if (!fullyInitialized) {
-            // Wait for all 4 keys to arrive before first render
-            if (loadedKeys.size >= STORE_KEYS.length) {
-              fullyInitialized = true;
-              if (domReady) renderAll();
-            }
-          } else if (domReady) {
-            // Subsequent real-time update from admin — re-render immediately
-            renderAll();
-          }
-        },
-        (err) => {
-          console.warn(`[MCH Store] Snapshot error for ${key}:`, err);
-          loadedKeys.add(key);
-          if (!fullyInitialized && loadedKeys.size >= STORE_KEYS.length) {
-            fullyInitialized = true;
-            if (domReady) renderAll();
-          }
-        }
-      );
-    });
-
-  } catch (e) {
-    console.warn('[MCH Store] Firebase init failed, using local data.', e);
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', renderAll);
+  } else {
+    renderAll();
   }
 
 })();

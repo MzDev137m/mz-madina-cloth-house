@@ -88,20 +88,8 @@ function logout() {
 
 // ── DATA HELPERS ──────────────────────────────────────────────────────────────
 function getData(key)        { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } }
-function saveData(key, data) {
-  localStorage.setItem(key, JSON.stringify(data))
-  // Also write to Firestore for cross-device sync
-  if (window._mchFB) {
-    const { db, doc, setDoc } = window._mchFB
-    setDoc(doc(db, 'clothhouse', key), { items: data }).catch(console.error)
-  }
-}
-
-// ── FIREBASE SYNC HELPER ──────────────────────────────────────────────────────
-// Wraps page init callbacks — waits for Firestore sync before rendering
-function mchWaitForSync(cb) {
-  (window._mchSyncReady || Promise.resolve()).then(cb).catch(cb)
-}
+function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)) }
+function mchWaitForSync(cb) { cb() }
 function getObj(key, id)     { return getData(key).find(x => x.id === id) || null; }
 
 // ── CATALOGUE LOOKUPS ─────────────────────────────────────────────────────────
