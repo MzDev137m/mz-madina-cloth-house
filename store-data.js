@@ -140,14 +140,17 @@
   // on every open browser/device without a page refresh.
 
   const STORE_KEYS = ['mch_products', 'mch_brands', 'mch_categories', 'mch_gallery'];
-  let domReady         = false;
+  // Script loads at bottom of body — DOM is already ready by the time this runs
+  let domReady         = document.readyState !== 'loading';
   let fullyInitialized = false;
   const loadedKeys     = new Set();
 
-  document.addEventListener('DOMContentLoaded', () => {
-    domReady = true;
-    if (fullyInitialized) renderAll();
-  });
+  if (!domReady) {
+    document.addEventListener('DOMContentLoaded', () => {
+      domReady = true;
+      if (fullyInitialized) renderAll();
+    });
+  }
 
   try {
     const [{ initializeApp, getApps }, { getFirestore, doc, onSnapshot }] = await Promise.all([
