@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tailoring | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html"><i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i><div><div>Madina Cloth House</div><span>Admin Panel</span></div></a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Tailoring Jobs</h4>
+    </div>
+    <div style="display:flex;gap:.5rem;">
+      <button class="btn btn-ghost btn-sm" onclick="exportAll()"><i class="bi bi-file-earmark-excel"></i> Export CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="openModal()"><i class="bi bi-plus-lg"></i> New Job</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Overdue Alert -->
+    <div id="overdueAlert" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:12px;padding:.85rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;">
+      <i class="bi bi-exclamation-triangle-fill" style="color:#dc2626;font-size:1.2rem;"></i>
+      <span style="color:#b91c1c;font-size:.88rem;font-weight:600;" id="overdueText"></span>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="stat-card ic-navy"><div class="stat-icon"><i class="bi bi-scissors"></i></div><p class="stat-val" id="s-total">0</p><p class="stat-lbl">Total Jobs</p></div>
+      <div class="stat-card ic-gold"><div class="stat-icon"><i class="bi bi-hourglass-split"></i></div><p class="stat-val" id="s-pending">0</p><p class="stat-lbl">Pending</p></div>
+      <div class="stat-card ic-blue"><div class="stat-icon"><i class="bi bi-arrow-repeat"></i></div><p class="stat-val" id="s-progress">0</p><p class="stat-lbl">In Progress</p></div>
+      <div class="stat-card ic-green"><div class="stat-icon"><i class="bi bi-check-circle"></i></div><p class="stat-val" id="s-ready">0</p><p class="stat-lbl">Ready</p></div>
+      <div class="stat-card ic-red"><div class="stat-icon"><i class="bi bi-clock-history"></i></div><p class="stat-val" id="s-overdue">0</p><p class="stat-lbl">Overdue</p></div>
+      <div class="stat-card ic-gold"><div class="stat-icon"><i class="bi bi-cash-stack"></i></div><p class="stat-val" id="s-rev">Rs. 0</p><p class="stat-lbl">Total Revenue</p></div>
+    </div>
+
+    <!-- Table -->
+    <div class="acard">
+      <div class="acard-head">
+        Tailoring Jobs
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <select class="finput" id="fStatus" style="width:140px;padding:.35rem .6rem;" onchange="render()">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="progress">In Progress</option>
+            <option value="ready">Ready</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <input class="finput" id="fSearch" style="width:180px;padding:.35rem .6rem;" placeholder="Search customer/garment..." oninput="render()">
+        </div>
+      </div>
+      <div class="acard-body p0" style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr><th>Slip #</th><th>Customer</th><th>Garment</th><th>Tailor</th><th>Delivery Date</th><th>Charges</th><th>Status</th><th>Payment</th><th></th></tr></thead>
+          <tbody id="tailorBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:700px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;max-height:92vh;display:flex;flex-direction:column;">
+    <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+      <h5 style="margin:0;color:var(--navy);" id="modalTitle">New Tailoring Job</h5>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
+    </div>
+    <div style="padding:1.5rem;overflow-y:auto;flex:1;">
+      <input type="hidden" id="jobId">
+
+      <!-- Customer -->
+      <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;">Customer Info</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;">
+        <div><label class="flabel">Customer Name *</label><input class="finput" type="text" id="jCust" placeholder="Full name" required></div>
+        <div><label class="flabel">Phone *</label><input class="finput" type="tel" id="jPhone" placeholder="03xx-xxxxxxx" required></div>
+      </div>
+
+      <!-- Garment -->
+      <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;">Garment Details</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;">
+        <div><label class="flabel">Garment Type *</label>
+          <select class="fselect" id="jGarment">
+            <option>Kameez Shalwar</option><option>Kurta</option><option>Sherwani</option><option>Waistcoat</option>
+            <option>Trouser</option><option>Coat</option><option>Suit</option><option>Lehenga</option>
+            <option>Shalwar</option><option>Pajama</option><option>Other</option>
+          </select>
+        </div>
+        <div><label class="flabel">Fabric</label><input class="finput" type="text" id="jFabric" placeholder="e.g. Lawn, Cotton"></div>
+        <div><label class="flabel">Colour / Design</label><input class="finput" type="text" id="jDesign" placeholder="e.g. White printed"></div>
+        <div><label class="flabel">Quantity</label><input class="finput" type="number" id="jQty" value="1" min="1"></div>
+        <div><label class="flabel">Assigned Tailor</label><input class="finput" type="text" id="jTailor" placeholder="Tailor name"></div>
+        <div><label class="flabel">Urgency</label>
+          <select class="fselect" id="jUrgency">
+            <option value="normal">Normal</option><option value="urgent">Urgent</option><option value="express">Express</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Measurements -->
+      <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;">Measurements (inches)</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1rem;">
+        <div><label class="flabel">Chest</label><input class="finput" type="number" id="mChest" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Waist</label><input class="finput" type="number" id="mWaist" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Hips</label><input class="finput" type="number" id="mHips" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Length (Kameez)</label><input class="finput" type="number" id="mLength" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Sleeve</label><input class="finput" type="number" id="mSleeve" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Shoulder</label><input class="finput" type="number" id="mShoulder" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Neck</label><input class="finput" type="number" id="mNeck" placeholder="0" step="0.5"></div>
+        <div><label class="flabel">Trouser Length</label><input class="finput" type="number" id="mTrouser" placeholder="0" step="0.5"></div>
+        <div style="grid-column:1/-1"><label class="flabel">Special Notes / Stitching Instructions</label><textarea class="ftextarea" id="mNotes" rows="2" placeholder="Any special stitching details, design preferences..."></textarea></div>
+      </div>
+
+      <!-- Charges & Dates -->
+      <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;">Charges & Dates</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;">
+        <div><label class="flabel">Total Charges (Rs.) *</label><input class="finput" type="number" id="jCharges" placeholder="0" min="0" oninput="calcJBalance()"></div>
+        <div><label class="flabel">Advance Paid (Rs.)</label><input class="finput" type="number" id="jAdvance" value="0" min="0" oninput="calcJBalance()"></div>
+        <div><label class="flabel">Balance</label><input class="finput" id="jBalance" readonly style="background:#f8fafc;"></div>
+        <div><label class="flabel">Order Date *</label><input class="finput" type="date" id="jDate" required></div>
+        <div><label class="flabel">Delivery Date *</label><input class="finput" type="date" id="jDelivery" required></div>
+        <div><label class="flabel">Payment Method</label>
+          <select class="fselect" id="jPayMethod">
+            <option value="cash">Cash</option><option value="bank">Bank Transfer</option><option value="jazzcash">JazzCash</option><option value="easypaisa">Easypaisa</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div><label class="flabel">Job Status</label>
+          <select class="fselect" id="jStatus">
+            <option value="pending">Pending</option><option value="progress">In Progress</option><option value="ready">Ready for Pickup</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div><label class="flabel">Slip No.</label><input class="finput" type="text" id="jSlip" placeholder="Auto-generated if empty"></div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:space-between;gap:.5rem;flex-shrink:0;">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <div style="display:flex;gap:.5rem;">
+        <button class="btn btn-ghost" id="printSlipBtn" style="display:none;" onclick="printCurrentSlip()"><i class="bi bi-printer"></i> Print Slip</button>
+        <button class="btn btn-gold" onclick="saveJob()"><i class="bi bi-save"></i> Save Job</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/tailoring.js"></script>
+</body>
+</html>

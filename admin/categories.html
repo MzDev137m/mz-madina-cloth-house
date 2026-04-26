@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html"><i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i><div><div>Madina Cloth House</div><span>Admin Panel</span></div></a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Category Management</h4>
+    </div>
+    <div class="topbar-right">
+      <a href="../index.html" target="_blank" class="btn btn-ghost btn-sm"><i class="bi bi-shop"></i> View Store</a>
+      <button class="btn btn-gold" onclick="openModal('catModal')"><i class="bi bi-plus-lg"></i> Add Category</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Stats -->
+    <div class="grid-auto" style="margin-bottom:1.25rem;" id="catStats"></div>
+
+    <!-- Filters -->
+    <div class="acard" style="margin-bottom:1rem;">
+      <div class="acard-body" style="padding:.85rem 1.2rem;">
+        <div class="search-bar">
+          <div class="search-box" style="max-width:300px;">
+            <i class="bi bi-search"></i>
+            <input class="finput" id="catSearch" placeholder="Search categories..." oninput="renderCategories()">
+          </div>
+          <div class="filter-group">
+            <select id="filterGender" onchange="renderCategories()">
+              <option value="">All Genders</option>
+              <option value="Men">Men</option>
+              <option value="Women">Women</option>
+              <option value="Kids">Kids</option>
+              <option value="Unisex">Unisex</option>
+            </select>
+            <select id="filterCatStatus" onchange="renderCategories()">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="exportCategories()"><i class="bi bi-download"></i> Export</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="acard">
+      <div class="acard-head">
+        Category List <span id="catCount" class="text-muted fw6" style="font-size:.78rem;"></span>
+      </div>
+      <div class="acard-body p0">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead><tr>
+              <th>#</th><th>Category Name</th><th>Gender</th><th>Description</th>
+              <th>Products</th><th>Status</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="catTbl"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal-overlay" id="catModal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <h3 id="catModalTitle">Add Category</h3>
+      <button class="modal-close" onclick="closeModal('catModal')"><i class="bi bi-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="catId">
+      <div class="frow">
+        <div class="fgroup">
+          <label class="flabel">Category Name *</label>
+          <input class="finput" id="catName" placeholder="e.g. Lawn Suit">
+        </div>
+      </div>
+      <div class="frow fcol2">
+        <div class="fgroup">
+          <label class="flabel">Gender *</label>
+          <select class="fselect" id="catGender">
+            <option value="">Select Gender</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Kids">Kids</option>
+            <option value="Unisex">Unisex</option>
+          </select>
+        </div>
+        <div class="fgroup">
+          <label class="flabel">Status</label>
+          <select class="fselect" id="catStatus">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Description</label>
+        <textarea class="ftextarea" id="catDesc" rows="3" placeholder="Brief description..."></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('catModal')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveCategory()"><i class="bi bi-check2"></i> Save Category</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/categories.js"></script>
+</body>
+</html>

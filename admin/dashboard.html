@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html">
+    <i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i>
+    <div><div>Madina Cloth House</div><span>Admin Panel</span></div>
+  </a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Dashboard</h4>
+    </div>
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <span style="font-size:.8rem;color:#94a3b8;" id="todayLbl"></span>
+      <a href="../index.html" target="_blank" class="btn btn-ghost btn-sm"><i class="bi bi-shop"></i> View Store</a>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- Stats Row 1 -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1rem;">
+      <div class="stat-card ic-gold">
+        <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
+        <p class="stat-val" id="s-today">Rs. 0</p>
+        <p class="stat-lbl">Today's Income</p>
+      </div>
+      <div class="stat-card ic-navy">
+        <div class="stat-icon"><i class="bi bi-graph-up-arrow"></i></div>
+        <p class="stat-val" id="s-month">Rs. 0</p>
+        <p class="stat-lbl">This Month Sales</p>
+      </div>
+      <div class="stat-card ic-green">
+        <div class="stat-icon"><i class="bi bi-graph-up"></i></div>
+        <p class="stat-val" id="s-profit">Rs. 0</p>
+        <p class="stat-lbl">Month Net Profit</p>
+      </div>
+      <div class="stat-card ic-red">
+        <div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div>
+        <p class="stat-val" id="s-lowstock">0</p>
+        <p class="stat-lbl">Low Stock Items</p>
+      </div>
+    </div>
+
+    <!-- Stats Row 2 -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="stat-card ic-blue">
+        <div class="stat-icon"><i class="bi bi-bag-check"></i></div>
+        <p class="stat-val" id="s-orders">0</p>
+        <p class="stat-lbl">Pending Orders</p>
+      </div>
+      <div class="stat-card ic-purple">
+        <div class="stat-icon"><i class="bi bi-scissors"></i></div>
+        <p class="stat-val" id="s-tailor">0</p>
+        <p class="stat-lbl">Active Tailoring</p>
+      </div>
+      <div class="stat-card ic-navy">
+        <div class="stat-icon"><i class="bi bi-people"></i></div>
+        <p class="stat-val" id="s-cust">0</p>
+        <p class="stat-lbl">Total Customers</p>
+      </div>
+      <div class="stat-card ic-orange">
+        <div class="stat-icon"><i class="bi bi-bag"></i></div>
+        <p class="stat-val" id="s-prods">0</p>
+        <p class="stat-lbl">Total Products</p>
+      </div>
+      <div class="stat-card" style="--accent:#7c3aed;">
+        <div class="stat-icon" style="background:rgba(124,58,237,.1);color:#7c3aed;"><i class="bi bi-award"></i></div>
+        <p class="stat-val" id="s-brands">0</p>
+        <p class="stat-lbl">Brands</p>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <div class="acard">
+        <div class="acard-head">Revenue — Last 7 Days</div>
+        <div class="acard-body"><canvas id="revenueChart" height="220"></canvas></div>
+      </div>
+      <div class="acard">
+        <div class="acard-head">Expense Breakdown (This Month)</div>
+        <div class="acard-body"><canvas id="expenseChart" height="220"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Recent Transactions & Orders -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="acard">
+        <div class="acard-head">Recent Transactions <a href="finance.html" class="btn btn-gold btn-sm">View All</a></div>
+        <div class="acard-body p0">
+          <table class="tbl"><thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th></tr></thead>
+          <tbody id="recentTx"><tr><td colspan="4" class="empty" style="padding:1.5rem;"><i class="bi bi-receipt"></i>No transactions yet</td></tr></tbody></table>
+        </div>
+      </div>
+      <div class="acard">
+        <div class="acard-head">Recent Orders <a href="orders.html" class="btn btn-gold btn-sm">View All</a></div>
+        <div class="acard-body p0">
+          <table class="tbl"><thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody id="recentOrders"><tr><td colspan="4" class="empty" style="padding:1.5rem;"><i class="bi bi-bag"></i>No orders yet</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

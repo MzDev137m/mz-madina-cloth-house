@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html"><i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i><div><div>Madina Cloth House</div><span>Admin Panel</span></div></a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Orders</h4>
+    </div>
+    <div style="display:flex;gap:.5rem;">
+      <button class="btn btn-ghost btn-sm" onclick="exportAll()"><i class="bi bi-file-earmark-excel"></i> Export CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="openModal()"><i class="bi bi-plus-lg"></i> New Order</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="stat-card ic-gold"><div class="stat-icon"><i class="bi bi-bag-check"></i></div><p class="stat-val" id="s-total">0</p><p class="stat-lbl">Total Orders</p></div>
+      <div class="stat-card ic-red"><div class="stat-icon"><i class="bi bi-hourglass-split"></i></div><p class="stat-val" id="s-pending">0</p><p class="stat-lbl">Pending</p></div>
+      <div class="stat-card ic-blue"><div class="stat-icon"><i class="bi bi-arrow-repeat"></i></div><p class="stat-val" id="s-progress">0</p><p class="stat-lbl">In Progress</p></div>
+      <div class="stat-card ic-green"><div class="stat-icon"><i class="bi bi-check-circle"></i></div><p class="stat-val" id="s-done">0</p><p class="stat-lbl">Delivered</p></div>
+      <div class="stat-card ic-navy"><div class="stat-icon"><i class="bi bi-cash-stack"></i></div><p class="stat-val" id="s-rev">Rs. 0</p><p class="stat-lbl">Total Revenue</p></div>
+    </div>
+
+    <!-- Table -->
+    <div class="acard">
+      <div class="acard-head">
+        All Orders
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <select class="finput" id="fStatus" style="width:140px;padding:.35rem .6rem;" onchange="render()">
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="progress">In Progress</option>
+            <option value="ready">Ready</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <select class="finput" id="fPay" style="width:130px;padding:.35rem .6rem;" onchange="render()">
+            <option value="">All Payment</option>
+            <option value="paid">Paid</option>
+            <option value="partial">Partial</option>
+            <option value="pending">Unpaid</option>
+          </select>
+          <input class="finput" id="fSearch" style="width:180px;padding:.35rem .6rem;" placeholder="Search customer/ID..." oninput="render()">
+        </div>
+      </div>
+      <div class="acard-body p0" style="overflow-x:auto;">
+        <table class="tbl">
+          <thead><tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Payment</th><th></th></tr></thead>
+          <tbody id="ordBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:680px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;max-height:92vh;display:flex;flex-direction:column;">
+    <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
+      <h5 style="margin:0;color:var(--navy);" id="modalTitle">New Order</h5>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
+    </div>
+    <div style="padding:1.5rem;overflow-y:auto;flex:1;">
+      <input type="hidden" id="ordId">
+
+      <!-- Customer Info -->
+      <div style="margin-bottom:1rem;">
+        <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;">Customer Details</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+          <div><label class="flabel">Customer Name *</label><input class="finput" type="text" id="ordCust" placeholder="Full name" required></div>
+          <div><label class="flabel">Phone *</label><input class="finput" type="tel" id="ordPhone" placeholder="03xx-xxxxxxx" required></div>
+          <div style="grid-column:1/-1"><label class="flabel">Address</label><input class="finput" type="text" id="ordAddr" placeholder="Delivery address (optional)"></div>
+        </div>
+      </div>
+
+      <!-- Order Items -->
+      <div style="margin-bottom:1rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;">
+          <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin:0;">Order Items</p>
+          <button class="btn btn-ghost btn-sm" onclick="addItem()"><i class="bi bi-plus"></i> Add Item</button>
+        </div>
+        <div id="itemsContainer"></div>
+        <div style="margin-top:.75rem;padding:.75rem;background:#f8fafc;border-radius:10px;">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem;"><span style="color:#64748b;">Subtotal</span><span id="subtotalLbl" style="font-weight:600;">Rs. 0</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem;">
+            <span style="color:#64748b;">Discount</span>
+            <span><input type="number" id="ordDiscount" style="width:90px;border:1px solid #e2e8f0;border-radius:6px;padding:.2rem .5rem;font-size:.82rem;text-align:right;" value="0" oninput="calcTotal()" min="0"></span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:1rem;font-weight:700;color:var(--navy);border-top:1px solid #e2e8f0;padding-top:.5rem;margin-top:.25rem;"><span>Total</span><span id="totalLbl">Rs. 0</span></div>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div style="margin-bottom:1rem;">
+        <p style="font-size:.78rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem;">Payment</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;">
+          <div><label class="flabel">Advance Paid (Rs.)</label><input class="finput" type="number" id="ordAdvance" value="0" min="0" oninput="calcBalance()"></div>
+          <div><label class="flabel">Payment Method</label>
+            <select class="fselect" id="ordPayMethod">
+              <option value="cash">Cash</option><option value="bank">Bank Transfer</option><option value="jazzcash">JazzCash</option><option value="easypaisa">Easypaisa</option>
+            </select>
+          </div>
+          <div><label class="flabel">Balance Due</label><input class="finput" id="ordBalance" readonly style="background:#f8fafc;"></div>
+        </div>
+      </div>
+
+      <!-- Status & Notes -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div><label class="flabel">Order Date *</label><input class="finput" type="date" id="ordDate" required></div>
+        <div><label class="flabel">Order Status</label>
+          <select class="fselect" id="ordStatus">
+            <option value="pending">Pending</option><option value="progress">In Progress</option><option value="ready">Ready</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div style="grid-column:1/-1"><label class="flabel">Notes</label><textarea class="ftextarea" id="ordNotes" rows="2" placeholder="Any special instructions..."></textarea></div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:space-between;gap:.5rem;flex-shrink:0;">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <div style="display:flex;gap:.5rem;">
+        <button class="btn btn-ghost" id="printBtn" onclick="printOrder()" style="display:none;"><i class="bi bi-printer"></i> Print</button>
+        <button class="btn btn-gold" onclick="saveOrder()"><i class="bi bi-save"></i> Save Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW MODAL -->
+<div id="viewModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;">
+    <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
+      <h5 style="margin:0;color:var(--navy);">Order Details</h5>
+      <button onclick="document.getElementById('viewModal').style.display='none'" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
+    </div>
+    <div id="viewContent" style="padding:1.5rem;max-height:75vh;overflow-y:auto;"></div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:.5rem;">
+      <button class="btn btn-ghost" onclick="document.getElementById('viewModal').style.display='none'">Close</button>
+      <button class="btn btn-gold" id="viewPrintBtn" onclick="printCurrentView()"><i class="bi bi-printer"></i> Print</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/orders.js"></script>
+</body>
+</html>

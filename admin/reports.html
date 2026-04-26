@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html"><i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i><div><div>Madina Cloth House</div><span>Admin Panel</span></div></a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Reports & Analytics</h4>
+    </div>
+    <div class="topbar-right">
+      <input type="month" class="finput" id="reportMonth" style="width:160px;" onchange="renderReports()">
+      <button class="btn btn-ghost btn-sm" onclick="exportReport()"><i class="bi bi-download"></i> Export</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- KPI Row -->
+    <div class="grid-auto" style="margin-bottom:1.25rem;" id="reportKPIs"></div>
+
+    <!-- Charts row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <div class="acard">
+        <div class="acard-head">Revenue vs Expense (Selected Month)</div>
+        <div class="acard-body"><canvas id="revExpChart" height="200"></canvas></div>
+      </div>
+      <div class="acard">
+        <div class="acard-head">Orders by Status</div>
+        <div class="acard-body"><canvas id="orderStatusChart" height="200"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Tables row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <!-- Top Products -->
+      <div class="acard">
+        <div class="acard-head">Top Products by Stock Value</div>
+        <div class="acard-body p0">
+          <table class="tbl">
+            <thead><tr><th>#</th><th>Product</th><th>Brand</th><th>Stock</th><th>Value</th></tr></thead>
+            <tbody id="topProductsTbl"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Low Stock -->
+      <div class="acard">
+        <div class="acard-head">Low Stock / Out of Stock Alert</div>
+        <div class="acard-body p0">
+          <table class="tbl">
+            <thead><tr><th>Product</th><th>Brand</th><th>Stock</th><th>Low At</th><th>Status</th></tr></thead>
+            <tbody id="lowStockTbl"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand breakdown -->
+    <div class="acard" style="margin-bottom:1.5rem;">
+      <div class="acard-head">Products by Brand</div>
+      <div class="acard-body" id="brandBreakdown" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.75rem;"></div>
+    </div>
+
+    <!-- Gender breakdown -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div class="acard">
+        <div class="acard-head">Products by Gender</div>
+        <div class="acard-body"><canvas id="genderChart" height="200"></canvas></div>
+      </div>
+      <div class="acard">
+        <div class="acard-head">Tailoring Jobs Summary</div>
+        <div class="acard-body p0">
+          <table class="tbl">
+            <thead><tr><th>Status</th><th>Count</th><th>% Share</th></tr></thead>
+            <tbody id="tailorSummaryTbl"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html"><i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i><div><div>Madina Cloth House</div><span>Admin Panel</span></div></a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Inventory</h4>
+    </div>
+    <div style="display:flex;gap:.5rem;">
+      <button class="btn btn-ghost btn-sm" onclick="exportCSV(getData('mch_products'),'inventory',['sku','name','category','unit','buyPrice','sellPrice','stock','lowStock','supplier'])"><i class="bi bi-file-earmark-excel"></i> Export</button>
+      <button class="btn btn-gold btn-sm" onclick="openAdd()"><i class="bi bi-plus-lg"></i> Add Product</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="stat-card ic-navy"><div class="stat-icon"><i class="bi bi-boxes"></i></div><p class="stat-val" id="s-total">0</p><p class="stat-lbl">Total Products</p></div>
+      <div class="stat-card ic-gold"><div class="stat-icon"><i class="bi bi-currency-dollar"></i></div><p class="stat-val" id="s-buyval">Rs. 0</p><p class="stat-lbl">Stock Value (Buy)</p></div>
+      <div class="stat-card ic-green"><div class="stat-icon"><i class="bi bi-graph-up"></i></div><p class="stat-val" id="s-sellval">Rs. 0</p><p class="stat-lbl">Stock Value (Sell)</p></div>
+      <div class="stat-card ic-red"><div class="stat-icon"><i class="bi bi-exclamation-triangle"></i></div><p class="stat-val" id="s-low">0</p><p class="stat-lbl">Low Stock Alerts</p></div>
+    </div>
+
+    <div id="lowAlert" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:10px;padding:.85rem 1.25rem;margin-bottom:1rem;font-size:.85rem;color:#991b1b;">
+      <i class="bi bi-exclamation-triangle-fill"></i> <strong>Low Stock:</strong> <span id="lowList"></span>
+    </div>
+
+    <div class="acard">
+      <div class="acard-head">
+        All Products
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <select class="finput" id="fCat" style="width:155px;padding:.35rem .6rem;" onchange="render()">
+            <option value="">All Categories</option>
+            <option>Fabrics</option><option>Ready-Made</option><option>Accessories</option><option>Stitching Materials</option><option>Other</option>
+          </select>
+          <input class="finput" id="fSearch" style="width:180px;padding:.35rem .6rem;" placeholder="Search product..." oninput="render()">
+        </div>
+      </div>
+      <div class="acard-body p0" style="overflow-x:auto;">
+        <table class="tbl"><thead><tr><th>SKU</th><th>Product Name</th><th>Category</th><th>Buy Price</th><th>Sell Price</th><th>Stock</th><th>Unit</th><th>Status</th><th></th></tr></thead>
+        <tbody id="invBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+    <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:1;">
+      <h5 style="margin:0;color:var(--navy);" id="modalTitle">Add Product</h5>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
+    </div>
+    <div style="padding:1.5rem;">
+      <input type="hidden" id="pId">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div style="grid-column:1/-1"><label class="flabel">Product Name *</label><input class="finput" type="text" id="pName" placeholder="e.g. Silk Fabric – Blue" required></div>
+        <div><label class="flabel">SKU / Code</label><input class="finput" type="text" id="pSku" placeholder="Auto if blank"></div>
+        <div><label class="flabel">Category *</label><select class="fselect" id="pCat"><option>Fabrics</option><option>Ready-Made</option><option>Accessories</option><option>Stitching Materials</option><option>Other</option></select></div>
+        <div><label class="flabel">Unit</label><select class="fselect" id="pUnit"><option>Piece</option><option>Meter</option><option>Yard</option><option>Set</option><option>Dozen</option></select></div>
+        <div><label class="flabel">Supplier</label><input class="finput" type="text" id="pSupplier" placeholder="Optional"></div>
+        <div><label class="flabel">Buy Price (Rs.) *</label><input class="finput" type="number" id="pBuy" min="0" placeholder="0" required></div>
+        <div><label class="flabel">Sell Price (Rs.) *</label><input class="finput" type="number" id="pSell" min="0" placeholder="0" required></div>
+        <div><label class="flabel">Current Stock *</label><input class="finput" type="number" id="pStock" min="0" placeholder="0" required></div>
+        <div><label class="flabel">Low Stock Alert At</label><input class="finput" type="number" id="pLow" min="0" placeholder="5"></div>
+        <div><label class="flabel">Location / Shelf</label><input class="finput" type="text" id="pLoc" placeholder="e.g. Shelf A2"></div>
+        <div style="grid-column:1/-1"><label class="flabel">Description</label><textarea class="ftextarea" id="pDesc" rows="2" placeholder="Optional"></textarea></div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:.5rem;">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveProduct()"><i class="bi bi-save"></i> Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- STOCK ADJUST MODAL -->
+<div id="adjModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.2);">
+    <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
+      <h5 style="margin:0;color:var(--navy);">Adjust Stock</h5>
+      <button onclick="closeAdj()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
+    </div>
+    <div style="padding:1.5rem;display:grid;gap:.75rem;">
+      <input type="hidden" id="adjId">
+      <p id="adjName" style="font-weight:700;color:var(--navy);"></p>
+      <div><label class="flabel">Action</label><select class="fselect" id="adjAction"><option value="add">Add Stock (+)</option><option value="remove">Remove Stock (−)</option><option value="set">Set Exact Amount</option></select></div>
+      <div><label class="flabel">Quantity</label><input class="finput" type="number" id="adjQty" min="0" value="1"></div>
+    </div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:.5rem;">
+      <button class="btn btn-ghost" onclick="closeAdj()">Cancel</button>
+      <button class="btn btn-gold" onclick="applyAdj()">Apply</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/inventory.js"></script>
+</body>
+</html>

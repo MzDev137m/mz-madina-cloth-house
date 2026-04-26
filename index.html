@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>if(sessionStorage.getItem('mch_v'))document.documentElement.classList.add('ss');</script>
+  <title>Madina Cloth House | Sadar Bazar, Narang Mandi</title>
+  <meta name="description" content="Madina Cloth House – Premium gents & ladies clothing, fabrics, bridal variety and tailoring in Sadar Bazar, Narang Mandi. Quality suits at honest prices.">
+  <meta name="keywords" content="Madina Cloth House, Narang Mandi, cloth shop, ladies suits, gents suits, bridal wear, lawn, wash wear, kurta, Sadar Bazar">
+  <meta name="author" content="MZ Corporations">
+  <meta property="og:title" content="Madina Cloth House | Narang Mandi">
+  <meta property="og:description" content="Premium gents & ladies clothing, bridal variety and fabrics in Sadar Bazar, Narang Mandi.">
+  <meta property="og:type" content="business.business">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ClothingStore","name":"Madina Cloth House","address":{"@type":"PostalAddress","streetAddress":"Sadar Bazar","addressLocality":"Narang Mandi","addressCountry":"PK"},"telephone":"+923004260700","openingHours":["Mo-Th 10:00-19:00","Sa-Su 10:00-19:00"]}
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="antialiased">
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scroll-progress"></div>
+
+  <!-- PRO CURSOR -->
+  <!-- PRO CURSOR -->
+  <div id="cur-arrow">
+    <svg viewBox="0 0 22 28" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 2.5 L3 23 L8.5 17.5 L12.5 26.5 L15.5 25 L11.5 16 L19.5 16 Z"/>
+    </svg>
+  </div>
+  <div id="cur-blob"></div>
+  <div id="cur-ripple"></div>
+  <div id="cur-ripple2"></div>
+
+  <!-- ═══════════════ SPLASH — MADINA CLOTH HOUSE ═══════════════ -->
+  <div id="mch-splash">
+  <style>
+  #mch-splash{position:fixed;inset:0;z-index:99999;overflow:hidden;background:#09203D;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  #mch-splash *{box-sizing:border-box;margin:0;padding:0;}
+  #mch-cv{position:absolute;inset:0;pointer-events:none;}
+  /* Fabric shimmer overlay */
+  #mch-fab{position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 2px,rgba(212,168,67,.018) 2px,rgba(212,168,67,.018) 4px),repeating-linear-gradient(-45deg,transparent,transparent 2px,rgba(255,255,255,.008) 2px,rgba(255,255,255,.008) 4px);pointer-events:none;}
+  /* Radial vignette */
+  #mch-vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.55) 100%);pointer-events:none;}
+  /* Top line */
+  #mch-tline{position:absolute;top:0;left:-100%;width:100%;height:2px;background:linear-gradient(90deg,transparent,#D4A843,transparent);animation:mchline 3s ease-in-out .5s forwards;}
+  @keyframes mchline{to{left:100%;}}
+  /* Bottom line */
+  #mch-bline{position:absolute;bottom:0;right:-100%;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,67,.4),transparent);animation:mchbline 3s ease-in-out 1s forwards;}
+  @keyframes mchbline{to{right:100%;}}
+  /* Corner brackets */
+  .mch-br{position:absolute;width:44px;height:44px;pointer-events:none;opacity:0;animation:mchbra .6s ease forwards;}
+  .mch-br::before,.mch-br::after{content:'';position:absolute;background:#D4A843;}
+  .mch-br::before{width:100%;height:1.5px;top:0;}.mch-br::after{width:1.5px;height:100%;top:0;}
+  .mch-br.tl{top:20px;left:20px;animation-delay:.3s;}
+  .mch-br.tr{top:20px;right:20px;transform:scaleX(-1);animation-delay:.4s;}
+  .mch-br.bl{bottom:20px;left:20px;transform:scaleY(-1);animation-delay:.5s;}
+  .mch-br.br{bottom:20px;right:20px;transform:scale(-1);animation-delay:.6s;}
+  @keyframes mchbra{to{opacity:1;}}
+  /* Main content */
+  #mch-main{position:relative;z-index:2;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0;}
+  /* Logo mark */
+  #mch-logo{width:80px;height:80px;border-radius:50%;border:1.5px solid rgba(212,168,67,.35);display:flex;align-items:center;justify-content:center;margin-bottom:28px;position:relative;opacity:0;animation:mchfa .8s ease .4s forwards;}
+  #mch-logo::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(212,168,67,.12);animation:mchspin 8s linear infinite;}
+  #mch-logo::after{content:'';position:absolute;inset:-16px;border-radius:50%;border:1px solid rgba(212,168,67,.06);animation:mchspin 12s linear infinite reverse;}
+  @keyframes mchspin{to{transform:rotate(360deg);}}
+  #mch-logo svg{width:36px;height:36px;fill:none;stroke:#D4A843;stroke-width:1.5;}
+  /* Tagline above */
+  #mch-above{font-family:'Segoe UI',sans-serif;font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:rgba(212,168,67,.6);margin-bottom:16px;opacity:0;animation:mchfa .7s ease .8s forwards;}
+  /* Main name */
+  #mch-name{font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,6vw,62px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:10px;overflow:hidden;}
+  #mch-name .mch-word{display:inline-block;opacity:0;transform:translateY(60px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1);}
+  #mch-name .mch-word.v{opacity:1;transform:translateY(0);}
+  #mch-name .mch-gold{color:#D4A843;}
+  /* Divider */
+  #mch-div{width:0;height:1px;background:linear-gradient(90deg,transparent,#D4A843,transparent);margin:18px auto;transition:width 1s ease .1s;}
+  #mch-div.v{width:200px;}
+  /* Subtitle */
+  #mch-sub{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.38);opacity:0;animation:mchfa .7s ease 1.8s forwards;}
+  /* Location */
+  #mch-loc{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.18em;color:rgba(212,168,67,.5);margin-top:8px;opacity:0;animation:mchfa .7s ease 2.1s forwards;}
+  @keyframes mchfa{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  /* Progress + credit block */
+  #mch-bot{position:absolute;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;padding-bottom:28px;gap:0;}
+  #mch-prog{width:min(280px,72vw);text-align:center;}
+  #mch-pbar{width:100%;height:1.5px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:10px;}
+  #mch-pfill{height:100%;width:0%;background:linear-gradient(90deg,#D4A843,#EDD27A,#D4A843);background-size:200% 100%;animation:mchbar 4s ease-in-out forwards,mchbarshin 1.5s linear infinite;}
+  @keyframes mchbar{to{width:100%;}}
+  @keyframes mchbarshin{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  #mch-ptxt{font-family:'Inter',sans-serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.22);}
+  /* MZ credit — visible, centered */
+  #mch-credit{margin-top:16px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(212,168,67,.55);opacity:0;animation:mchfa .7s ease 2.6s forwards;display:flex;align-items:center;gap:10px;}
+  #mch-credit::before,#mch-credit::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,67,.25),transparent);width:40px;}
+  </style>
+  <canvas id="mch-cv"></canvas>
+  <div id="mch-fab"></div>
+  <div id="mch-vig"></div>
+  <div id="mch-tline"></div>
+  <div id="mch-bline"></div>
+  <div class="mch-br tl"></div><div class="mch-br tr"></div>
+  <div class="mch-br bl"></div><div class="mch-br br"></div>
+  <div id="mch-main">
+    <div id="mch-logo">
+      <!-- Needle & thread icon -->
+      <svg viewBox="0 0 36 36"><path d="M18 4 C18 4 28 10 28 20 C28 27 23.5 32 18 32 C12.5 32 8 27 8 20 C8 10 18 4 18 4Z" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 14 L18 26 M14 20 L22 20" stroke-linecap="round"/></svg>
+    </div>
+    <div id="mch-above">Premium Clothing Store</div>
+    <div id="mch-name">
+      <span class="mch-word" data-delay="900">Madina&nbsp;</span><span class="mch-word mch-gold" data-delay="1100">Cloth&nbsp;</span><span class="mch-word" data-delay="1300">House</span>
+    </div>
+    <div id="mch-div"></div>
+    <div id="mch-sub">Elegance Woven in Every Thread</div>
+    <div id="mch-loc">Sadar Bazar · Narang Mandi · Pakistan</div>
+  </div>
+  <div id="mch-bot">
+    <div id="mch-prog">
+      <div id="mch-pbar"><div id="mch-pfill"></div></div>
+      <div id="mch-ptxt">Loading Collection...</div>
+    </div>
+    <div id="mch-credit">Developed by MZ Corporations</div>
+  </div>
+  <script>
+  (function(){
+    // First visit in session: full 3.8s. Any subsequent refresh: fast 0.9s.
+    var first = !sessionStorage.getItem('mch_v');
+    sessionStorage.setItem('mch_v','1');
+    var splashDur = first ? 3800 : 2000;
+    var fadeDur   = first ? 750  : 500;
+    window.mchSplashTotal = (splashDur + fadeDur) / 1000; // seconds until fully hidden
+
+    var cv=document.getElementById('mch-cv'),ctx=cv.getContext('2d'),W,H,t=0,rafId=0,alive=true;
+    function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+    window.addEventListener('resize',rsz);rsz();
+
+    // Silk thread animation — skip on fast revisit
+    if(first){
+      function drawSilk(){
+        if(!alive)return;
+        ctx.clearRect(0,0,W,H);
+        for(var row=0;row<8;row++){
+          var y=H*(row/7),amp=20+row%3*8,freq=0.004+row%2*0.002,phase=row*0.8+t*0.55;
+          ctx.beginPath();
+          ctx.strokeStyle='rgba(212,168,67,'+(0.028+row%4*0.007)+')';
+          ctx.lineWidth=row%2===0?1.1:.65;
+          for(var x=0;x<=W;x+=4){
+            var yy=y+Math.sin(x*freq+phase)*amp;
+            x===0?ctx.moveTo(x,yy):ctx.lineTo(x,yy);
+          }
+          ctx.stroke();
+        }
+        for(var col=0;col<5;col++){
+          var x2=W*(col/4),amp2=26+col%2*10,freq2=0.005+col%2*0.003,phase2=col*1.2+t*.4;
+          ctx.beginPath();
+          ctx.strokeStyle='rgba(212,168,67,.022)';
+          ctx.lineWidth=.6;
+          for(var y2=0;y2<=H;y2+=4){
+            var xx=x2+Math.sin(y2*freq2+phase2)*amp2;
+            y2===0?ctx.moveTo(xx,y2):ctx.lineTo(xx,y2);
+          }
+          ctx.stroke();
+        }
+        t+=0.014;
+        rafId=requestAnimationFrame(drawSilk);
+      }
+      drawSilk();
+    }
+
+    // Animate name words (instant on revisit)
+    document.querySelectorAll('#mch-name .mch-word').forEach(function(w){
+      var d=parseInt(w.getAttribute('data-delay')||0)-900;
+      if(!first) d=Math.min(d/8,80);
+      setTimeout(function(){w.classList.add('v');},Math.max(0,d));
+    });
+    // Animate divider
+    setTimeout(function(){var d=document.getElementById('mch-div');if(d)d.classList.add('v');},first?1600:100);
+
+    // Accelerate progress bar on revisit
+    if(!first){
+      var pf=document.getElementById('mch-pfill');
+      if(pf){pf.style.animationDuration=splashDur+'ms';}
+    }
+
+    // Hide splash
+    setTimeout(function(){
+      var sp=document.getElementById('mch-splash');
+      sp.style.transition='opacity '+fadeDur+'ms ease';
+      sp.style.opacity='0';
+      setTimeout(function(){
+        sp.style.display='none';
+        alive=false; cancelAnimationFrame(rafId);
+      },fadeDur);
+    },splashDur);
+  })();
+  </script>
+  </div>
+  <!-- ═══════════════ END SPLASH ═══════════════ -->
+
+  <!-- ── NAVBAR ─────────────────────────────────────────────────────────── -->
+  <header class="fixed top-0 inset-x-0 z-50" style="opacity:0;visibility:hidden;" id="mainHeader">
+    <!-- Announcement Banner (inside fixed header so it doesn't conflict) -->
+    <div id="announceBanner" class="announce-banner">
+      <div class="max-w-6xl mx-auto px-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-sm font-medium">
+          <span class="announce-dot"></span>
+          <span>🌟 New Summer Collection Arrived! Visit us in Sadar Bazar, Narang Mandi for the latest lawn &amp; bridal variety.</span>
+        </div>
+        <button onclick="document.getElementById('announceBanner').style.display='none'" class="text-white/60 hover:text-white flex-shrink-0 text-lg leading-none">&times;</button>
+      </div>
+    </div>
+    <nav id="nav" class="glass-nav mx-0 sm:mx-3 mt-0 sm:mt-3 rounded-none sm:rounded-2xl px-5 py-3 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:var(--navy);">
+          <i class="bi bi-bag-fill" style="color:var(--gold);font-size:.9rem;"></i>
+        </div>
+        <div class="flex flex-col leading-tight">
+          <span class="brand-font text-base sm:text-lg font-semibold" style="color:var(--navy);">Madina Cloth House</span>
+          <span class="text-[10px] tracking-[0.22em] uppercase" style="color:var(--muted);">Sadar Bazar · Narang Mandi</span>
+        </div>
+      </a>
+      <button id="menuBtn" class="md:hidden w-10 h-10 grid place-items-center rounded-xl transition" style="background:#f1f5f9;color:var(--navy);">
+        <i class="bi bi-list text-xl"></i>
+      </button>
+      <div class="hidden md:flex items-center gap-6 text-[13px] font-medium" style="color:var(--text);">
+        <a class="nav-link-anim active" href="#home">Home</a>
+        <a class="nav-link-anim" href="#about">About</a>
+        <a class="nav-link-anim" href="#shop">Shop</a>
+        <a class="nav-link-anim" href="#brands">Brands</a>
+        <a class="nav-link-anim" href="#gallery">Gallery</a>
+        <a class="nav-link-anim" href="#owners">Owners</a>
+        <a class="nav-link-anim" href="#contact">Contact</a>
+        <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%20want%20to%20enquire%20about%20your%20collection."
+           target="_blank"
+           class="btn-gold px-5 py-2 rounded-full text-xs font-bold tracking-wide">
+          <i class="bi bi-whatsapp me-1.5"></i> WhatsApp
+        </a>
+      </div>
+    </nav>
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden glass-nav mx-0 sm:mx-3 mt-1 rounded-none sm:rounded-2xl px-5 py-4 grid gap-2 text-sm font-medium" style="color:var(--text);">
+      <a href="#home"    class="nav-link-anim active mobile-link py-1.5">Home</a>
+      <a href="#about"   class="nav-link-anim mobile-link py-1.5">About</a>
+      <a href="#shop"    class="nav-link-anim mobile-link py-1.5">Shop</a>
+      <a href="#brands"  class="nav-link-anim mobile-link py-1.5">Brands</a>
+      <a href="#gallery" class="nav-link-anim mobile-link py-1.5">Gallery</a>
+      <a href="#owners"  class="nav-link-anim mobile-link py-1.5">Owners</a>
+      <a href="#contact" class="nav-link-anim mobile-link py-1.5">Contact</a>
+      <a href="https://wa.me/923004260700" target="_blank"
+         class="btn-gold px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2 justify-center mt-1">
+        <i class="bi bi-whatsapp"></i> Chat on WhatsApp
+      </a>
+    </div>
+  </header>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────── -->
+  <section id="home" class="relative overflow-hidden min-h-screen flex items-center justify-center hero-bg text-white">
+    <!-- Animated fabric canvas background -->
+    <canvas id="heroFabricCanvas" style="position:absolute;inset:0;width:100%;height:100%;opacity:.18;pointer-events:none;z-index:1;"></canvas>
+    <div class="blob one" style="z-index:2;"></div>
+    <div class="blob two" style="z-index:2;"></div>
+    <div class="blob three" style="z-index:2;"></div>
+    <div class="absolute inset-0 hero-pattern" style="z-index:2;"></div>
+    <div class="absolute inset-0 grid-bg" style="z-index:2;"></div>
+    <div class="particle-container" style="z-index:3;"></div>
+
+    <!-- Decorative corner accent -->
+    <div class="absolute top-0 right-0 w-96 h-96 opacity-10" style="background:radial-gradient(circle, var(--gold) 0%, transparent 70%);z-index:2;"></div>
+    <div class="absolute bottom-0 left-0 w-72 h-72 opacity-5" style="background:radial-gradient(circle, var(--gold) 0%, transparent 70%);z-index:2;"></div>
+
+    <div class="relative max-w-5xl px-6 text-center hero-content-wrap" style="z-index:10;">
+      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-6 hero-anim hero-anim-d1"
+           style="background:rgba(255,255,255,.09);border:1px solid rgba(212,168,67,.30);backdrop-filter:blur(8px);">
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0"></span>
+        <span class="text-xs tracking-[.25em] uppercase text-white/80">Open Now · Sadar Bazar, Narang Mandi</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight brand-font mb-5 hero-anim hero-anim-d2">
+        Elegant Clothing<br>
+        <em class="not-italic" style="color:var(--gold);">for Him &amp; Her</em>
+      </h1>
+      <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 hero-anim hero-anim-d3" style="color:rgba(255,255,255,.78);">
+        Stitched &amp; unstitched suits, premium fabrics, and bridal variety — crafted to fit your style and budget.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center mb-12 hero-anim hero-anim-d4">
+        <a href="#shop" class="btn-gold magnetic-btn glow-btn px-8 py-4 rounded-full font-bold text-base">
+          <i class="bi bi-bag-fill me-2"></i>View Collection
+        </a>
+        <a href="https://wa.me/923004260700" target="_blank"
+           class="btn-outline magnetic-btn px-8 py-4 rounded-full font-bold text-base flex items-center gap-2 justify-center">
+          <i class="bi bi-whatsapp"></i> WhatsApp Us
+        </a>
+      </div>
+
+      <!-- Feature pills -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto hero-anim hero-anim-d5">
+        <div class="rounded-2xl p-4 text-left" style="background:rgba(255,255,255,.08);border:1px solid rgba(212,168,67,.22);">
+          <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--gold);">Gents</p>
+          <p class="font-semibold text-sm">Wash &amp; Wear, Kurta, Waistcoat</p>
+        </div>
+        <div class="rounded-2xl p-4 text-left" style="background:rgba(255,255,255,.08);border:1px solid rgba(212,168,67,.22);">
+          <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--gold);">Ladies</p>
+          <p class="font-semibold text-sm">Lawn, Embroidered Suits, Abaya</p>
+        </div>
+        <div class="rounded-2xl p-4 text-left" style="background:rgba(255,255,255,.08);border:1px solid rgba(212,168,67,.22);">
+          <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--gold);">Bridal Variety</p>
+          <p class="font-semibold text-sm">Heavy Embroidery · Wedding Collection</p>
+        </div>
+      </div>
+    </div>
+
+    <a href="#stats" class="absolute bottom-8 left-1/2 scroll-indicator" aria-label="Scroll down">
+      <i class="bi bi-chevron-down text-xl" style="color:rgba(255,255,255,.5);"></i>
+    </a>
+  </section>
+
+  <!-- ── STATS STRIP ───────────────────────────────────────────────────── -->
+  <section id="stats" class="stats-strip py-10">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex flex-wrap justify-center items-center gap-x-0 gap-y-6 text-center">
+        <div class="flex-1 min-w-[140px] stat-item reveal-up">
+          <p class="stat-number" data-count="15">0</p>
+          <p class="text-xs uppercase tracking-wider mt-1" style="color:var(--muted);">Years in Business</p>
+          <span class="stat-underline"></span>
+        </div>
+        <div class="stat-divider hidden md:block"></div>
+        <div class="flex-1 min-w-[140px] stat-item reveal-up">
+          <p class="stat-number" data-count="500">0</p>
+          <p class="text-xs uppercase tracking-wider mt-1" style="color:var(--muted);">Happy Customers</p>
+          <span class="stat-underline"></span>
+        </div>
+        <div class="stat-divider hidden md:block"></div>
+        <div class="flex-1 min-w-[140px] stat-item reveal-up">
+          <p class="stat-number" data-count="200">0</p>
+          <p class="text-xs uppercase tracking-wider mt-1" style="color:var(--muted);">Products Available</p>
+          <span class="stat-underline"></span>
+        </div>
+        <div class="stat-divider hidden md:block"></div>
+        <div class="flex-1 min-w-[140px] stat-item reveal-up">
+          <p class="stat-number" data-count="8">0</p>
+          <p class="text-xs uppercase tracking-wider mt-1" style="color:var(--muted);">Premium Brands</p>
+          <span class="stat-underline"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MARQUEE ──────────────────────────────────────────────────────────── -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="marquee-dot"></span>Gents Collection</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Ladies Suits</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Bridal Variety</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Wash &amp; Wear</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Lawn Fabric</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Junaid Jamshed</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Gul Ahmed</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Khaadi</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Sapphire</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Premium Fabrics</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Narang Mandi</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Sadar Bazar</span>
+    </div>
+  </div>
+
+  <!-- ── ABOUT ─────────────────────────────────────────────────────────── -->
+  <section id="about" class="py-16 lg:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow">About Us</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">Madina Cloth House</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <div class="space-y-4 text-lg reveal-up" style="color:#475569;">
+          <p>Madina Cloth House is a family-run gents and ladies clothing shop located in the heart of <strong style="color:var(--navy);">Sadar Bazar, Narang Mandi</strong>.</p>
+          <p>We deal in quality fabrics and ready-to-wear for men and women, with a special focus on proper fitting, premium textures, and affordable prices.</p>
+          <p>Beyond our daily collections, we take pride in our <strong style="color:var(--navy);">exclusive Bridal Variety</strong>. From intricately embroidered fancy suits to heavy festive wear, we offer elegant designs that make your special occasions truly memorable.</p>
+          <div class="flex flex-wrap gap-2 pt-2">
+            <span class="tag">Gents Collection</span>
+            <span class="tag">Ladies Collection</span>
+            <span class="tag">Bridal Variety</span>
+            <span class="tag">Reasonable Prices</span>
+          </div>
+          <a href="#contact" class="inline-flex items-center gap-2 btn-gold px-6 py-3 rounded-full font-bold mt-2">
+            <i class="bi bi-geo-alt-fill"></i> Visit Our Shop
+          </a>
+        </div>
+        <div class="border-gradient rounded-2xl reveal-up">
+          <div class="rounded-2xl bg-white p-6 shadow-xl">
+            <h5 class="text-xl font-semibold mb-5 flex items-center gap-2" style="color:var(--navy);">
+              <i class="bi bi-patch-check-fill" style="color:var(--gold);"></i> Why People Choose Us
+            </h5>
+            <ul class="space-y-3" style="color:#475569;">
+              <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color:var(--gold);"></i>Premium Bridal &amp; Festive wear collection</li>
+              <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color:var(--gold);"></i>Good quality local &amp; imported fabrics</li>
+              <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color:var(--gold);"></i>Separate gents &amp; ladies variety</li>
+              <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color:var(--gold);"></i>Quick delivery and honest pricing</li>
+              <li class="flex items-start gap-2"><i class="bi bi-check-circle-fill flex-shrink-0 mt-0.5" style="color:var(--gold);"></i>Trusted family business since 2009</li>
+            </ul>
+            <div class="mt-6 pt-5 border-t text-sm space-y-2" style="border-color:#f1f5f9;color:#64748b;">
+              <p class="flex items-center gap-2"><i class="bi bi-geo-alt-fill" style="color:var(--gold);"></i><strong>Location:</strong> Sadar Bazar, Narang Mandi</p>
+              <p class="flex items-center gap-2"><i class="bi bi-clock-fill" style="color:var(--gold);"></i><strong>Timings:</strong> Mon–Thu &amp; Sat–Sun: 10 AM – 7 PM · <span class="text-red-500 font-medium">Friday Off</span></p>
+              <p class="flex items-center gap-2"><i class="bi bi-telephone-fill" style="color:var(--gold);"></i><strong>Contact:</strong> +92 333 4110634</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SHOP ──────────────────────────────────────────────────────────── -->
+  <section id="shop" class="py-16 lg:py-24" style="background:var(--cream);">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow">Our Products</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">Popular Items</h2>
+        <p class="text-sm mt-4 reveal-up" style="color:var(--muted);">Tap any product to enquire on WhatsApp instantly</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="shopGrid">
+
+        <!-- Wash & Wear -->
+        <div class="product-card tilt-card card-gold-border rounded-2xl bg-white shadow-sm reveal-up group overflow-hidden">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/shop/wash-wear.jpg" alt="Wash & Wear Suit" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="product-overlay">
+              <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20the%20Wash%20%26%20Wear%20Suit.%20Please%20share%20details%20and%20price."
+                 target="_blank" class="wa-enquire-btn">
+                <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--muted);">Gents · Unstitched</p>
+            <h5 class="font-semibold text-lg" style="color:var(--navy);">Wash &amp; Wear Suit</h5>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <span class="tag-sm">Summer Collection</span>
+              <span class="tag-sm">Plain</span>
+            </div>
+            <p class="text-sm mt-2" style="color:var(--muted);">Perfect for daily &amp; office wear.</p>
+            <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20the%20Wash%20%26%20Wear%20Suit.%20Please%20share%20details."
+               target="_blank" class="wa-card-btn mt-4">
+              <i class="bi bi-whatsapp"></i> Enquire Now
+            </a>
+          </div>
+        </div>
+
+        <!-- 3-Piece Lawn Suit -->
+        <div class="product-card tilt-card card-gold-border rounded-2xl bg-white shadow-sm reveal-up group overflow-hidden">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/shop/lawn-suit.jpg" alt="3-Piece Lawn Suit" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="product-overlay">
+              <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20the%203-Piece%20Lawn%20Suit.%20Please%20share%20details%20and%20price."
+                 target="_blank" class="wa-enquire-btn">
+                <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--muted);">Ladies · Unstitched</p>
+            <h5 class="font-semibold text-lg" style="color:var(--navy);">3-Piece Lawn Suit</h5>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <span class="tag-sm">Printed</span>
+              <span class="tag-sm">Embroidery Neck</span>
+            </div>
+            <p class="text-sm mt-2" style="color:var(--muted);">Comfortable &amp; stylish for summer.</p>
+            <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20the%203-Piece%20Lawn%20Suit.%20Please%20share%20details."
+               target="_blank" class="wa-card-btn mt-4">
+              <i class="bi bi-whatsapp"></i> Enquire Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Cotton Kurta -->
+        <div class="product-card tilt-card card-gold-border rounded-2xl bg-white shadow-sm reveal-up group overflow-hidden">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/shop/kurta.jpg" alt="Cotton Kurta" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="product-overlay">
+              <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20Cotton%20Kurta.%20Please%20share%20details%20and%20price."
+                 target="_blank" class="wa-enquire-btn">
+                <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--muted);">Gents · Ready-made</p>
+            <h5 class="font-semibold text-lg" style="color:var(--navy);">Cotton Kurta</h5>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <span class="tag-sm">Sizes: S–XXL</span>
+              <span class="tag-sm">Soft Cotton</span>
+            </div>
+            <p class="text-sm mt-2" style="color:var(--muted);">Ideal for Jumma &amp; functions.</p>
+            <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20Cotton%20Kurta.%20Please%20share%20details."
+               target="_blank" class="wa-card-btn mt-4">
+              <i class="bi bi-whatsapp"></i> Enquire Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Abaya / Maxi -->
+        <div class="product-card tilt-card card-gold-border rounded-2xl bg-white shadow-sm reveal-up group overflow-hidden">
+          <div class="relative overflow-hidden h-56">
+            <img src="images/shop/abaya.jpg" alt="Abaya / Maxi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="product-overlay">
+              <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20Abaya%20%2F%20Maxi.%20Please%20share%20details%20and%20price."
+                 target="_blank" class="wa-enquire-btn">
+                <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+          <div class="p-5">
+            <p class="text-xs uppercase tracking-[.2em] mb-1" style="color:var(--muted);">Ladies · Ready-made</p>
+            <h5 class="font-semibold text-lg" style="color:var(--navy);">Abaya / Maxi</h5>
+            <div class="flex flex-wrap gap-1.5 mt-2">
+              <span class="tag-sm">Black</span>
+              <span class="tag-sm">Simple &amp; Fancy</span>
+            </div>
+            <p class="text-sm mt-2" style="color:var(--muted);">Decent designs for hijab ladies.</p>
+            <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%27m%20interested%20in%20Abaya%20%2F%20Maxi.%20Please%20share%20details."
+               target="_blank" class="wa-card-btn mt-4">
+              <i class="bi bi-whatsapp"></i> Enquire Now
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BRANDS ─────────────────────────────────────────────────────────── -->
+  <section id="brands" class="py-16 lg:py-24 brands-section">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow" style="color:var(--gold-light);">Our Range</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold text-white">Premium Brands &amp; Fabrics</h2>
+        <p class="mt-4 reveal-up max-w-2xl mx-auto text-sm" style="color:rgba(255,255,255,.55);">Quality local and selected branded fabrics for gents and ladies with competitive pricing.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-10" id="brandsGrid">
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/J-J.jpg" alt="Junaid Jamshed" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Junaid Jamshed (J.)</h5>
+            <p class="text-xs mt-1">Unstitched · Office wear</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/J-A.jpg" alt="Gul Ahmed" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Gul Ahmed</h5>
+            <p class="text-xs mt-1">Daily wear · Comfortable</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/sapphire-suit.jpg" alt="Sapphire" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Sapphire</h5>
+            <p class="text-xs mt-1">Ladies · Printed designs</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/khaadi-suit.jpg" alt="Khaadi" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Khaadi</h5>
+            <p class="text-xs mt-1">Winter collection</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/plain-suit.jpg" alt="Plain & Stripe Suiting" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Plain &amp; Stripe Suiting</h5>
+            <p class="text-xs mt-1">Gents formal wear</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/ladies-suits.jpg" alt="Ladies 3-Piece Suits" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Ladies 3-Piece Suits</h5>
+            <p class="text-xs mt-1">Complete suit set</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/bridal-variety.jpg" alt="Bridal Variety" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Bridal Variety</h5>
+            <p class="text-xs mt-1">Heavy embroidery · Wedding</p>
+          </div>
+        </div>
+
+        <div class="brand-card-dark tilt-card reveal-up overflow-hidden group">
+          <div class="overflow-hidden h-44 bg-white/5">
+            <img src="images/brands/shawl-stole.jpg" alt="Shawl" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy">
+          </div>
+          <div class="p-4">
+            <h5 class="font-semibold text-base">Shawl Collection</h5>
+            <p class="text-xs mt-1">Winter · Wool</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ────────────────────────────────────────────────────────── -->
+  <section id="gallery" class="py-16 lg:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow">Our Collection</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">Photo Gallery</h2>
+        <p class="text-sm mt-4 reveal-up" style="color:var(--muted);">Click any photo to view full size</p>
+      </div>
+      <div class="gallery-grid gallery-masonry reveal-up" id="storeGallery">
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/shop/wash-wear.jpg" alt="Wash & Wear Suit" loading="lazy"><div class="gallery-label">Wash &amp; Wear Suit</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/shop/lawn-suit.jpg" alt="3-Piece Lawn Suit" loading="lazy"><div class="gallery-label">3-Piece Lawn Suit</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/shop/kurta.jpg" alt="Cotton Kurta" loading="lazy"><div class="gallery-label">Cotton Kurta</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/shop/abaya.jpg" alt="Abaya / Maxi" loading="lazy"><div class="gallery-label">Abaya / Maxi</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/bridal-variety.jpg" alt="Bridal Variety" loading="lazy"><div class="gallery-label">Bridal Variety</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/ladies-suits.jpg" alt="Ladies Suits" loading="lazy"><div class="gallery-label">Ladies Suits</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/khaadi-suit.jpg" alt="Khaadi" loading="lazy"><div class="gallery-label">Khaadi</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/sapphire-suit.jpg" alt="Sapphire" loading="lazy"><div class="gallery-label">Sapphire</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/shawl-stole.jpg" alt="Shawl Collection" loading="lazy"><div class="gallery-label">Shawl Collection</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/J-J.jpg" alt="Junaid Jamshed" loading="lazy"><div class="gallery-label">Junaid Jamshed (J.)</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/J-A.jpg" alt="Gul Ahmed" loading="lazy"><div class="gallery-label">Gul Ahmed</div></div>
+        <div class="gallery-item" onclick="openLightbox(this)"><img src="images/brands/plain-suit.jpg" alt="Plain Suiting" loading="lazy"><div class="gallery-label">Plain Suiting</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LIGHTBOX ───────────────────────────────────────────────────────── -->
+  <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-prev" onclick="event.stopPropagation();changeLightbox(-1)"><i class="bi bi-chevron-left"></i></button>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <img id="lightboxImg" src="" alt="">
+      <p id="lightboxCaption" class="lightbox-caption"></p>
+    </div>
+    <button class="lightbox-next" onclick="event.stopPropagation();changeLightbox(1)"><i class="bi bi-chevron-right"></i></button>
+  </div>
+
+  <!-- ── TESTIMONIALS ───────────────────────────────────────────────────── -->
+  <section id="testimonials" class="py-16 lg:py-24" style="background:var(--cream);">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">What Customers Say</h2>
+      </div>
+      <div class="testimonials-wrap">
+        <div class="testimonials-track">
+
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"Bahut acha kapra mila. Lawn suit ki quality bohat achi thi aur price bhi theek tha. Zaroor dobara aayenge."</p>
+            <div class="reviewer">
+              <div class="reviewer-avatar">FM</div>
+              <div>
+                <p class="reviewer-name">Fatima Malik</p>
+                <p class="reviewer-loc">Narang Mandi</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"Wash &amp; wear suit liya tha office ke liye. Fitting perfect tha aur kapre ki quality mujhe pasand aayi. Highly recommended!"</p>
+            <div class="reviewer">
+              <div class="reviewer-avatar">ZA</div>
+              <div>
+                <p class="reviewer-name">Zafar Ahmad</p>
+                <p class="reviewer-loc">Narang Mandi</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p class="quote">"Bridal dress bohat khoobsurat tha. Puri family khush thi. Bhai Arif ne bohat help ki selection mein. Allah abaad rakhe."</p>
+            <div class="reviewer">
+              <div class="reviewer-avatar">SN</div>
+              <div>
+                <p class="reviewer-name">Sana Naz</p>
+                <p class="reviewer-loc">Sadar Bazar</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="testimonials-dots">
+          <button class="testimonials-dot active" aria-label="Slide 1"></button>
+          <button class="testimonials-dot" aria-label="Slide 2"></button>
+          <button class="testimonials-dot" aria-label="Slide 3"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TAILORING ──────────────────────────────────────────────────────── -->
+  <section id="tailoring" class="py-16 lg:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 reveal-up">
+        <p class="eyebrow">Coming Soon</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">Stitching Services</h2>
+      </div>
+      <div class="mt-12 max-w-3xl mx-auto card-float rounded-2xl bg-white p-8 shadow-lg reveal-up" style="border-top:4px solid var(--gold);">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3" style="background:var(--cream);">
+            <i class="bi bi-scissors text-2xl" style="color:var(--gold);"></i>
+          </div>
+          <p class="text-lg font-medium" style="color:#475569;">Professional gents &amp; ladies stitching services — <strong style="color:var(--navy);">starting very soon!</strong></p>
+        </div>
+        <ul class="space-y-2 mb-6" style="color:#475569;">
+          <li class="flex items-center gap-2"><i class="bi bi-check-circle-fill" style="color:var(--gold);"></i> Neat stitching with proper fitting and finishing</li>
+          <li class="flex items-center gap-2"><i class="bi bi-check-circle-fill" style="color:var(--gold);"></i> Gents &amp; ladies formal / casual suits</li>
+          <li class="flex items-center gap-2"><i class="bi bi-check-circle-fill" style="color:var(--gold);"></i> Alteration &amp; size fitting</li>
+          <li class="flex items-center gap-2"><i class="bi bi-check-circle-fill" style="color:var(--gold);"></i> Bridal &amp; event dress stitching</li>
+        </ul>
+        <p class="text-sm text-center mb-6" style="color:var(--muted);">For now, visit our shop for fabrics and we will guide you about trusted tailors in the area.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%20want%20to%20enquire%20about%20your%20stitching%20services.%20Please%20provide%20details."
+             target="_blank" class="btn-gold px-6 py-3 rounded-full font-bold flex items-center gap-2 justify-center">
+            <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+          </a>
+          <a href="#contact" class="btn-outline-gold px-6 py-3 rounded-full font-bold flex items-center gap-2 justify-center">
+            <i class="bi bi-telephone"></i> Call Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── OWNERS ─────────────────────────────────────────────────────────── -->
+  <section id="owners" class="py-16 lg:py-24" style="background:var(--cream);">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow">Our Team</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">Meet Our Owners</h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+
+        <div class="owner-card rounded-2xl bg-white overflow-hidden shadow-lg reveal-up" style="border:1px solid #e2e8f0;">
+          <div class="owner-img-wrap relative w-full h-72 overflow-hidden bg-slate-100">
+            <img src="images/arif-jadran.jpg" alt="Haji Muhammad Arif Jadran" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="owner-img-overlay"></div>
+            <div class="owner-badge">Managing Director</div>
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="font-semibold text-lg" style="color:var(--navy);">Haji Muhammad Arif Jadran</h3>
+            <div class="mt-4 space-y-2 text-sm">
+              <a href="tel:+923334110634" class="owner-contact-row"><i class="bi bi-telephone-fill" style="color:var(--gold);"></i> +92 333 4110634</a>
+              <a href="https://wa.me/923334110634?text=Assalam%20o%20Alaikum%20Haji%20Arif%20sahib!" target="_blank" class="owner-contact-row"><i class="bi bi-whatsapp" style="color:#25d366;"></i> Chat on WhatsApp</a>
+              <a href="mailto:arif.jadran@gmail.com" class="owner-contact-row"><i class="bi bi-envelope-fill" style="color:#64748b;"></i> arif.jadran@gmail.com</a>
+              <a href="https://www.facebook.com/share/17TJgj4Geb/" target="_blank" class="owner-contact-row"><i class="bi bi-facebook" style="color:#1877f2;"></i> Facebook Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="owner-card rounded-2xl bg-white overflow-hidden shadow-lg reveal-up" style="border:1px solid #e2e8f0;">
+          <div class="owner-img-wrap relative w-full h-72 overflow-hidden bg-slate-100">
+            <img src="images/tariq-jadran.jpg" alt="Haji Muhammad Tariq Jadran" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="owner-img-overlay"></div>
+            <div class="owner-badge">Operations Director</div>
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="font-semibold text-lg" style="color:var(--navy);">Haji Muhammad Tariq Jadran</h3>
+            <div class="mt-4 space-y-2 text-sm">
+              <a href="tel:+923048705829" class="owner-contact-row"><i class="bi bi-telephone-fill" style="color:var(--gold);"></i> +92 304 8705829</a>
+              <a href="https://wa.me/923048705829?text=Assalam%20o%20Alaikum%20Haji%20Tariq%20sahib!" target="_blank" class="owner-contact-row"><i class="bi bi-whatsapp" style="color:#25d366;"></i> Chat on WhatsApp</a>
+              <a href="mailto:tariq.jadran@gmail.com" class="owner-contact-row"><i class="bi bi-envelope-fill" style="color:#64748b;"></i> tariq.jadran@gmail.com</a>
+              <a href="https://www.facebook.com/share/17TJgj4Geb/" target="_blank" class="owner-contact-row"><i class="bi bi-facebook" style="color:#1877f2;"></i> Facebook Profile</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="owner-card rounded-2xl bg-white overflow-hidden shadow-lg reveal-up" style="border:1px solid #e2e8f0;">
+          <div class="owner-img-wrap relative w-full h-72 overflow-hidden bg-slate-100">
+            <img src="images/hamza-jadran.jpg" alt="Muhammad Hamza Jadran" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.style.display='none'">
+            <div class="owner-img-overlay"></div>
+            <div class="owner-badge">Executive Director</div>
+          </div>
+          <div class="p-6 text-center">
+            <h3 class="font-semibold text-lg" style="color:var(--navy);">Muhammad Hamza Jadran</h3>
+            <div class="mt-4 space-y-2 text-sm">
+              <a href="tel:+923208440134" class="owner-contact-row"><i class="bi bi-telephone-fill" style="color:var(--gold);"></i> +92 320 8440134</a>
+              <a href="https://wa.me/923208440134?text=Assalam%20o%20Alaikum%20Hamza%20bhai!" target="_blank" class="owner-contact-row"><i class="bi bi-whatsapp" style="color:#25d366;"></i> Chat on WhatsApp</a>
+              <a href="mailto:hamza.jadran@gmail.com" class="owner-contact-row"><i class="bi bi-envelope-fill" style="color:#64748b;"></i> hamza.jadran@gmail.com</a>
+              <a href="https://www.facebook.com/share/17gT2nZLUL/" target="_blank" class="owner-contact-row"><i class="bi bi-facebook" style="color:#1877f2;"></i> Facebook Profile</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ────────────────────────────────────────────────────────── -->
+  <section id="contact" class="py-16 lg:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center space-y-2 mb-12 reveal-up">
+        <p class="eyebrow">Contact</p>
+        <h2 class="title-bar text-3xl md:text-4xl font-semibold">Get in Touch</h2>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-8 items-start">
+
+        <!-- Info Card -->
+        <div class="rounded-2xl p-6 shadow-lg reveal-up space-y-5" style="background:var(--navy);border-top:4px solid var(--gold);">
+          <h3 class="text-xl font-semibold text-white">Contact Information</h3>
+          <div class="contact-info-row">
+            <div class="contact-icon"><i class="bi bi-geo-alt-fill" style="color:var(--gold);"></i></div>
+            <div>
+              <p class="font-semibold text-xs uppercase tracking-wide mb-0.5" style="color:rgba(255,255,255,.5);">Address</p>
+              <p class="text-white/80 text-sm">Madina Cloth House, Sadar Bazar, Narang Mandi, Pakistan</p>
+            </div>
+          </div>
+          <div class="contact-info-row">
+            <div class="contact-icon"><i class="bi bi-telephone-fill" style="color:var(--gold);"></i></div>
+            <div>
+              <p class="font-semibold text-xs uppercase tracking-wide mb-0.5" style="color:rgba(255,255,255,.5);">Phone</p>
+              <a href="tel:+923334110634" class="text-white/80 hover:text-amber-300 text-sm transition block">+92 333 4110634</a>
+              <a href="tel:+923004260700" class="text-white/80 hover:text-amber-300 text-sm transition block">+92 300 4260700</a>
+            </div>
+          </div>
+          <div class="contact-info-row">
+            <div class="contact-icon"><i class="bi bi-whatsapp text-green-400"></i></div>
+            <div>
+              <p class="font-semibold text-xs uppercase tracking-wide mb-0.5" style="color:rgba(255,255,255,.5);">WhatsApp</p>
+              <a href="https://wa.me/923004260700" target="_blank" class="text-white/80 hover:text-green-400 text-sm transition">+92 300 4260700</a>
+            </div>
+          </div>
+          <div class="contact-info-row">
+            <div class="contact-icon"><i class="bi bi-envelope-fill" style="color:var(--gold);"></i></div>
+            <div>
+              <p class="font-semibold text-xs uppercase tracking-wide mb-0.5" style="color:rgba(255,255,255,.5);">Email</p>
+              <a href="mailto:arif.jadran@gmail.com" class="text-white/80 hover:text-amber-300 text-sm transition">arif.jadran@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-info-row">
+            <div class="contact-icon"><i class="bi bi-clock-fill" style="color:var(--gold);"></i></div>
+            <div>
+              <p class="font-semibold text-xs uppercase tracking-wide mb-0.5" style="color:rgba(255,255,255,.5);">Timings</p>
+              <p class="text-white/80 text-sm">Mon–Thu &amp; Sat–Sun: <strong class="text-white">10:00 AM – 7:00 PM</strong></p>
+              <p class="text-red-400 text-sm font-medium">Friday: Closed</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="rounded-2xl bg-white p-6 shadow-lg reveal-up" style="border-top:4px solid var(--gold);">
+          <h3 class="text-xl font-semibold mb-5" style="color:var(--navy);">Send a Message</h3>
+          <form id="contactForm" class="grid gap-3">
+            <input type="text"  id="cName"    class="form-input" placeholder="Your Name *" required>
+            <input type="tel"   id="cPhone"   class="form-input" placeholder="Mobile Number *" required>
+            <input type="email" id="cEmail"   class="form-input" placeholder="Email (optional)">
+            <textarea          id="cMessage" rows="4" class="form-input" placeholder="Your message... *" required></textarea>
+            <button type="submit" class="btn-gold w-full py-3.5 rounded-xl font-bold flex items-center gap-2 justify-center">
+              <i class="bi bi-whatsapp"></i> Send via WhatsApp
+            </button>
+            <p class="text-xs text-center" style="color:var(--muted);">This will open WhatsApp with your message pre-filled.</p>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Map -->
+      <div class="rounded-2xl overflow-hidden shadow-xl mt-10 reveal-up" style="border:1px solid #e2e8f0;">
+        <iframe class="w-full h-[380px]"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3387.1108062335215!2d74.5198113!3d31.9035866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39193999198ddcc9%3A0x446816af3b3adc0e!2sSadar%20Bazar%2C%20Narang%20Mandi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1765281297518!5m2!1sen!2s"
+          style="border:0;" allowfullscreen loading="lazy" title="Madina Cloth House Location">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────────────────── -->
+  <footer class="pt-12 pb-6" style="background:var(--navy-deep);">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-8 pb-10" style="border-bottom:1px solid rgba(255,255,255,.07);">
+        <div>
+          <div class="brand-font text-xl font-semibold mb-1" style="color:var(--gold);">Madina Cloth House</div>
+          <p class="text-sm mb-5" style="color:rgba(255,255,255,.45);">Sadar Bazar, Narang Mandi, Pakistan<br>Quality clothing for every occasion.</p>
+          <div class="flex items-center gap-3">
+            <a href="https://www.facebook.com/share/17TJgj4Geb/" target="_blank" class="footer-social"><i class="bi bi-facebook"></i></a>
+            <a href="https://wa.me/923004260700" target="_blank" class="footer-social"><i class="bi bi-whatsapp"></i></a>
+            <a href="mailto:arif.jadran@gmail.com" class="footer-social"><i class="bi bi-envelope-fill"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-sm" style="color:rgba(255,255,255,.5);">
+            <li><a href="#home"    class="hover:text-amber-400 transition">Home</a></li>
+            <li><a href="#about"   class="hover:text-amber-400 transition">About Us</a></li>
+            <li><a href="#shop"    class="hover:text-amber-400 transition">Shop</a></li>
+            <li><a href="#gallery" class="hover:text-amber-400 transition">Gallery</a></li>
+            <li><a href="#owners"  class="hover:text-amber-400 transition">Our Owners</a></li>
+            <li><a href="#contact" class="hover:text-amber-400 transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-white mb-4">Business Hours</h4>
+          <ul class="space-y-2 text-sm" style="color:rgba(255,255,255,.5);">
+            <li class="flex justify-between"><span>Monday – Thursday</span><span class="text-white/70">10 AM – 7 PM</span></li>
+            <li class="flex justify-between text-red-400"><span>Friday</span><span>Closed</span></li>
+            <li class="flex justify-between"><span>Saturday – Sunday</span><span class="text-white/70">10 AM – 7 PM</span></li>
+          </ul>
+          <div class="mt-5">
+            <a href="https://wa.me/923004260700" target="_blank"
+               class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-full transition">
+              <i class="bi bi-whatsapp"></i> Chat on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 text-xs" style="color:rgba(255,255,255,.3);">
+        <p>&copy; 2025 Madina Cloth House · Sadar Bazar, Narang Mandi</p>
+        <p>Developed by <a href="#" style="color:var(--gold);" class="hover:brightness-125">MZ Corporations</a>
+          &nbsp;·&nbsp; <a href="admin/login.html" class="hover:text-amber-400 transition">Admin Panel</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── FLOATING BUTTONS ───────────────────────────────────────────────── -->
+  <a href="https://wa.me/923004260700?text=Assalam%20o%20Alaikum!%20I%20want%20to%20enquire%20about%20your%20collection."
+     target="_blank" class="floating whatsapp" aria-label="Chat on WhatsApp">
+    <i class="bi bi-whatsapp text-2xl"></i>
+  </a>
+  <button id="toTop" class="floating top hidden" aria-label="Back to top">
+    <i class="bi bi-chevron-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+  <script src="store-data.js"></script>
+</body>
+</html>

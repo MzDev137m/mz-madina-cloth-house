@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance | MCH Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<div class="s-overlay" id="sOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <a class="s-brand" href="dashboard.html"><i class="bi bi-bag-fill" style="color:var(--gold);font-size:1.2rem;"></i><div><div>Madina Cloth House</div><span>Admin Panel</span></div></a>
+  <nav class="s-nav">
+    <div class="s-section">Main</div>
+    <a class="s-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <div class="s-section">Catalogue</div>
+    <a class="s-link" href="brands.html"><i class="bi bi-award"></i> Brands</a>
+    <a class="s-link" href="categories.html"><i class="bi bi-grid-3x3-gap"></i> Categories</a>
+    <a class="s-link" href="products.html"><i class="bi bi-bag"></i> Products</a>
+    <div class="s-section">Operations</div>
+    <a class="s-link" href="inventory.html"><i class="bi bi-boxes"></i> Inventory</a>
+    <a class="s-link" href="orders.html"><i class="bi bi-bag-check"></i> Orders</a>
+    <a class="s-link" href="tailoring.html"><i class="bi bi-scissors"></i> Tailoring</a>
+    <div class="s-section">People</div>
+    <a class="s-link" href="customers.html"><i class="bi bi-people"></i> Customers</a>
+    <div class="s-section">Marketing</div>
+    <a class="s-link" href="promotions.html"><i class="bi bi-megaphone"></i> Promotions</a>
+    <div class="s-section">Finance & Reports</div>
+    <a class="s-link" href="finance.html"><i class="bi bi-cash-coin"></i> Finance</a>
+    <a class="s-link" href="reports.html"><i class="bi bi-bar-chart-line"></i> Reports</a>
+    <div class="s-section">System</div>
+    <a class="s-link" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+  </nav>
+  <div class="s-footer"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-left"></i> Logout</a><div class="s-brand-badge">Developed by <span>MZ Corporations</span></div></div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <button class="btn btn-ghost btn-sm mob-toggle" onclick="toggleSidebar()"><i class="bi bi-list" style="font-size:1.2rem;"></i></button>
+      <h4>Finance Manager</h4>
+    </div>
+    <div style="display:flex;gap:.5rem;">
+      <button class="btn btn-ghost btn-sm" onclick="exportAll()"><i class="bi bi-file-earmark-excel"></i> Export CSV</button>
+      <button class="btn btn-gold btn-sm" onclick="openModal()"><i class="bi bi-plus-lg"></i> Add Entry</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Summary -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="stat-card ic-green"><div class="stat-icon"><i class="bi bi-arrow-up-circle"></i></div><p class="stat-val" id="s-inc">Rs. 0</p><p class="stat-lbl">Total Income</p></div>
+      <div class="stat-card ic-red"><div class="stat-icon"><i class="bi bi-arrow-down-circle"></i></div><p class="stat-val" id="s-exp">Rs. 0</p><p class="stat-lbl">Total Expenses</p></div>
+      <div class="stat-card ic-gold"><div class="stat-icon"><i class="bi bi-graph-up"></i></div><p class="stat-val" id="s-net">Rs. 0</p><p class="stat-lbl">Net Profit</p></div>
+      <div class="stat-card ic-navy"><div class="stat-icon"><i class="bi bi-receipt"></i></div><p class="stat-val" id="s-cnt">0</p><p class="stat-lbl">Transactions</p></div>
+    </div>
+
+    <!-- Charts -->
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <div class="acard"><div class="acard-head">Monthly Overview</div><div class="acard-body"><canvas id="monthChart" height="200"></canvas></div></div>
+      <div class="acard"><div class="acard-head">Category Breakdown</div><div class="acard-body"><canvas id="catChart" height="200"></canvas></div></div>
+    </div>
+
+    <!-- Table -->
+    <div class="acard">
+      <div class="acard-head">
+        All Transactions
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <select class="finput" id="fType" style="width:120px;padding:.35rem .6rem;" onchange="render()">
+            <option value="">All Types</option><option value="income">Income</option><option value="expense">Expense</option>
+          </select>
+          <select class="finput" id="fMonth" style="width:155px;padding:.35rem .6rem;" onchange="render()"><option value="">All Months</option></select>
+          <input class="finput" id="fSearch" style="width:180px;padding:.35rem .6rem;" placeholder="Search..." oninput="render()">
+        </div>
+      </div>
+      <div class="acard-body p0" style="overflow-x:auto;">
+        <table class="tbl"><thead><tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Payment</th><th>Amount</th><th></th></tr></thead>
+        <tbody id="txBody"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.2);overflow:hidden;">
+    <div style="padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;display:flex;justify-content:space-between;align-items:center;">
+      <h5 style="margin:0;color:var(--navy);" id="modalTitle">Add Transaction</h5>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#94a3b8;">&times;</button>
+    </div>
+    <div style="padding:1.5rem;max-height:75vh;overflow-y:auto;">
+      <input type="hidden" id="txId">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div><label class="flabel">Type *</label><select class="fselect" id="txType" onchange="updateCats()"><option value="income">Income</option><option value="expense">Expense</option></select></div>
+        <div><label class="flabel">Category *</label><select class="fselect" id="txCat"></select></div>
+        <div><label class="flabel">Amount (Rs.) *</label><input class="finput" type="number" id="txAmt" min="0" placeholder="0" required></div>
+        <div><label class="flabel">Date *</label><input class="finput" type="date" id="txDate" required></div>
+        <div style="grid-column:1/-1"><label class="flabel">Description *</label><input class="finput" type="text" id="txDesc" placeholder="Brief description" required></div>
+        <div><label class="flabel">Payment Method</label><select class="fselect" id="txPay"><option value="cash">Cash</option><option value="bank">Bank Transfer</option><option value="jazzcash">JazzCash</option><option value="easypaisa">Easypaisa</option></select></div>
+        <div><label class="flabel">Reference No.</label><input class="finput" type="text" id="txRef" placeholder="Optional"></div>
+        <div style="grid-column:1/-1"><label class="flabel">Notes</label><textarea class="ftextarea" id="txNotes" rows="2" placeholder="Additional notes"></textarea></div>
+      </div>
+    </div>
+    <div style="padding:1rem 1.5rem;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;gap:.5rem;">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="saveTx()"><i class="bi bi-save"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/finance.js"></script>
+</body>
+</html>
