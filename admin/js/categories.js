@@ -1,7 +1,9 @@
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  renderCatStats();
-  renderCategories();
+  mchWaitForSync(() => {
+    renderCatStats();
+    renderCategories();
+  });
 });
 
 // ── STATS ─────────────────────────────────────────────────────────────────────

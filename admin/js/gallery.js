@@ -1,7 +1,9 @@
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  renderGalleryStats();
-  renderGallery();
+  mchWaitForSync(() => {
+    renderGalleryStats();
+    renderGallery();
+  });
 });
 
 // ── STATS ─────────────────────────────────────────────────────────────────────

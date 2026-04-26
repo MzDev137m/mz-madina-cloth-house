@@ -1,10 +1,37 @@
 // ── STORE DATA BRIDGE ─────────────────────────────────────────────────────────
-// Reads data from admin panel's localStorage and populates the store frontend.
-// Keys: mch_products, mch_brands, mch_categories
+// Syncs from Firestore first, then renders the store frontend.
 
-(function () {
+(async function () {
   const WA = '923004260700';
 
+  // ── FIREBASE SYNC ──────────────────────────────────────────────────────────
+  try {
+    const [{ initializeApp, getApps }, { getFirestore, doc, getDoc }] = await Promise.all([
+      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js'),
+    ])
+    const config = {
+      apiKey: "AIzaSyDpYmD6FrOLfPMKdvnX5DoNLdzLYh2vFaM",
+      authDomain: "mz-projects-6f5a9.firebaseapp.com",
+      projectId: "mz-projects-6f5a9",
+      storageBucket: "mz-projects-6f5a9.firebasestorage.app",
+      messagingSenderId: "454812915813",
+      appId: "1:454812915813:web:8d8e6b955011273c148e8c",
+    }
+    const app = getApps().find(a => a.name === 'mch-store') || initializeApp(config, 'mch-store')
+    const db  = getFirestore(app)
+    const KEYS = ['mch_products', 'mch_brands', 'mch_categories', 'mch_gallery']
+    await Promise.all(KEYS.map(async (key) => {
+      const snap = await getDoc(doc(db, 'clothhouse', key))
+      if (snap.exists() && snap.data().items !== undefined) {
+        localStorage.setItem(key, JSON.stringify(snap.data().items))
+      }
+    }))
+  } catch (e) {
+    console.warn('[MCH Store] Firebase sync failed, using local data.', e)
+  }
+
+  // ── HELPERS ────────────────────────────────────────────────────────────────
   function getData(key) {
     try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; }
   }
@@ -129,7 +156,7 @@
       </div>`).join('');
   }
 
-  // ── RUN ON LOAD ─────────────────────────────────────────────────────────────
+  // ── RUN ─────────────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     renderShop();
     renderBrands();

@@ -109,4 +109,4 @@ function load() {
   }
 }
 
-load();
+mchWaitForSync(() => load());

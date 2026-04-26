@@ -5,10 +5,12 @@ let _selColors = [];
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  populateFabricSelect();
-  populateFilterDropdowns();
-  renderProdStats();
-  renderProducts();
+  mchWaitForSync(() => {
+    populateFabricSelect();
+    populateFilterDropdowns();
+    renderProdStats();
+    renderProducts();
+  });
 });
 
 function populateFabricSelect() {
