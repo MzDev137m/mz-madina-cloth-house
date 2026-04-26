@@ -277,14 +277,15 @@
   if (!localStorage.getItem('mch_credentials')) {
     localStorage.setItem('mch_credentials', JSON.stringify({ username:'admin', password:'admin123' }));
   }
-  if (!localStorage.getItem('mch_pin')) localStorage.setItem('mch_pin', '1234');
+  // Always update PIN to current default if it was the old default
+  if (!localStorage.getItem('mch_pin') || localStorage.getItem('mch_pin') === '1234') localStorage.setItem('mch_pin', '6581');
 
   // ── TAB SWITCH ──
   function switchTab(t) {
     document.getElementById('tabPwd').classList.toggle('active', t==='pwd');
     document.getElementById('tabPin').classList.toggle('active', t==='pin');
-    document.getElementById('pwdSection').style.display  = t==='pwd' ? '' : 'none';
-    document.getElementById('pinSection').style.display  = t==='pin' ? '' : 'none';
+    document.getElementById('pwdSection').style.display  = t==='pwd' ? 'block' : 'none';
+    document.getElementById('pinSection').style.display  = t==='pin' ? 'block' : 'none';
     if (t==='pin') { pin=''; updateDots(); }
   }
 
@@ -318,7 +319,7 @@
     for (let i=0;i<4;i++) document.getElementById('d'+i).classList.toggle('filled', i < pin.length);
   }
   function tryPinLogin() {
-    const stored = localStorage.getItem('mch_pin') || '1234';
+    const stored = localStorage.getItem('mch_pin') || '6581';
     const errEl  = document.getElementById('pinErr');
     if (pin === stored) {
       errEl.innerHTML = '';
